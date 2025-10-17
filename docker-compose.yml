@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symfony_ux_demo
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/app
+      # Optimisation: ne pas monter ces dossiers
+      - /app/var
+      - /app/vendor
+      - /app/node_modules
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - DATABASE_URL=mysql://symfony:symfony@db:3306/symfony_ux?serverVersion=8.0
+    depends_on:
+      - db
+    networks:
+      - symfony_network
+
+  db:
+    image: mysql:8.0
+    container_name: symfony_ux_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony_ux
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - symfony_network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: symfony_ux_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: symfony
+      PMA_PASSWORD: symfony
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - symfony_network
+
+volumes:
+  db_data:
+
+networks:
+  symfony_network:
+    driver: bridge

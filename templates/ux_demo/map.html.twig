@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UX Map Demo - Symfony UX{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Démonstration UX Map</h1>
+        <p>Intégrez des cartes interactives avec Leaflet et Symfony UX Map</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .map-container {
+                margin-top: 2rem;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                height: 500px;
+                width: 100%;
+            }
+
+            .map-container > div {
+                height: 100% !important;
+                width: 100% !important;
+            }
+
+            .leaflet-container {
+                height: 100% !important;
+                width: 100% !important;
+                z-index: 1;
+            }
+
+            .info-box {
+                background: #e0e7ff;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                border-left: 4px solid #667eea;
+            }
+
+            .info-box h3 {
+                color: #667eea;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box p {
+                color: #4c51bf;
+                line-height: 1.6;
+            }
+
+            .markers-list {
+                margin-top: 2rem;
+                padding: 2rem;
+                background: #f7fafc;
+                border-radius: 10px;
+            }
+
+            .markers-list h3 {
+                color: #667eea;
+                margin-bottom: 1rem;
+            }
+
+            .marker-item {
+                background: white;
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+                border-radius: 5px;
+                border-left: 3px solid #667eea;
+            }
+
+            .marker-item strong {
+                color: #667eea;
+            }
+        </style>
+
+        <div class="info-box">
+            <h3>À propos de Symfony UX Map</h3>
+            <p>
+                Symfony UX Map facilite l'intégration de cartes interactives dans vos applications.
+                Avec Leaflet comme moteur de rendu, vous pouvez créer des cartes personnalisées,
+                ajouter des marqueurs, des info-bulles et bien plus encore.
+            </p>
+        </div>
+
+        <h2 style="color: #667eea; margin-bottom: 1rem;">Carte de Paris avec lieux touristiques</h2>
+
+        <div class="map-container">
+            {{ render_map(map) }}
+        </div>
+
+        <div class="markers-list">
+            <h3>Marqueurs sur la carte</h3>
+            <div class="marker-item">
+                <strong>Tour Eiffel</strong> - Monument emblématique de Paris
+            </div>
+            <div class="marker-item">
+                <strong>Musée du Louvre</strong> - Le plus grand musée d'art au monde
+            </div>
+            <div class="marker-item">
+                <strong>Cathédrale Notre-Dame</strong> - Cathédrale gothique historique
+            </div>
+            <div class="marker-item">
+                <strong>Sacré-Cœur</strong> - Située au sommet de Montmartre
+            </div>
+            <div class="marker-item">
+                <strong>Arc de Triomphe</strong> - Monument commémoratif
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; padding: 2rem; background: #f7fafc; border-radius: 10px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">Fonctionnalités</h3>
+            <ul style="color: #666; line-height: 2; padding-left: 2rem;">
+                <li>Cartes interactives avec zoom et déplacement</li>
+                <li>Marqueurs personnalisables</li>
+                <li>Info-bulles au clic sur les marqueurs</li>
+                <li>Support de différents renderers (Leaflet, Google Maps)</li>
+                <li>API PHP simple et intuitive</li>
+                <li>Responsive et adaptatif sur tous les appareils</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

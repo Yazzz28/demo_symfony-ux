@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chart.js Demo - Symfony UX{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Démonstration Chart.js</h1>
+        <p>Visualisez vos données avec des graphiques interactifs et attrayants</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .chart-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+
+            .chart-container {
+                background: #f7fafc;
+                padding: 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+
+            .chart-container h3 {
+                color: #667eea;
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+            }
+
+            .chart-wrapper {
+                position: relative;
+                height: 300px;
+            }
+
+            .info-box {
+                background: #e0e7ff;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                border-left: 4px solid #667eea;
+            }
+
+            .info-box h3 {
+                color: #667eea;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box p {
+                color: #4c51bf;
+                line-height: 1.6;
+            }
+        </style>
+
+        <div class="info-box">
+            <h3>À propos de Symfony UX Chart.js</h3>
+            <p>
+                Symfony UX Chart.js vous permet de créer facilement des graphiques interactifs dans vos applications Symfony.
+                Il s'intègre parfaitement avec le framework et offre une API PHP simple pour générer tous types de graphiques.
+            </p>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <h3>Graphique en ligne</h3>
+                <div class="chart-wrapper">
+                    {{ render_chart(lineChart) }}
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Graphique en barres</h3>
+                <div class="chart-wrapper">
+                    {{ render_chart(barChart) }}
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Graphique circulaire</h3>
+                <div class="chart-wrapper">
+                    {{ render_chart(pieChart) }}
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Graphique en anneau</h3>
+                <div class="chart-wrapper">
+                    {{ render_chart(doughnutChart) }}
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; padding: 2rem; background: #f7fafc; border-radius: 10px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">Fonctionnalités</h3>
+            <ul style="color: #666; line-height: 2; padding-left: 2rem;">
+                <li>Graphiques interactifs avec survol</li>
+                <li>Responsive et adaptatif</li>
+                <li>Animations fluides</li>
+                <li>Support de nombreux types de graphiques</li>
+                <li>Personnalisation complète des couleurs et styles</li>
+                <li>Export en image possible</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

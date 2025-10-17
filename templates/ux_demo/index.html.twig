@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Symfony UX Demo{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Bienvenue dans la démo Symfony UX</h1>
+        <p>Découvrez les composants Symfony UX en action</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .demo-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+
+            .demo-card {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 2rem;
+                border-radius: 10px;
+                color: white;
+                text-decoration: none;
+                transition: transform 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+
+            .demo-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            }
+
+            .demo-card h2 {
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+            }
+
+            .demo-card p {
+                line-height: 1.6;
+                opacity: 0.9;
+            }
+
+            .demo-card .icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                display: block;
+            }
+        </style>
+
+        <h2>Composants disponibles</h2>
+
+        <div class="demo-grid">
+            <a href="{{ path('ux_demo_chartjs') }}" class="demo-card">
+                <span class="icon">📊</span>
+                <h2>Chart.js</h2>
+                <p>Créez de magnifiques graphiques interactifs avec Chart.js. Découvrez des exemples de graphiques en ligne, en barres, circulaires et bien plus encore.</p>
+            </a>
+
+            <a href="{{ path('ux_demo_map') }}" class="demo-card">
+                <span class="icon">🗺️</span>
+                <h2>UX Map</h2>
+                <p>Intégrez facilement des cartes interactives dans vos applications avec Leaflet. Ajoutez des marqueurs, des info-bulles et personnalisez l'apparence.</p>
+            </a>
+
+            <a href="{{ path('ux_demo_turbo') }}" class="demo-card">
+                <span class="icon">⚡</span>
+                <h2>Turbo</h2>
+                <p>Accélérez votre application avec Turbo. Chargement de contenu dynamique, navigation rapide et mises à jour en temps réel sans rechargement de page.</p>
+            </a>
+
+            <a href="{{ path('ux_demo_stimulus') }}" class="demo-card">
+                <span class="icon">🎯</span>
+                <h2>Stimulus</h2>
+                <p>Ajoutez de l'interactivité à vos pages avec des contrôleurs Stimulus légers. Architecture JavaScript simple et modulaire pour le web moderne.</p>
+            </a>
+        </div>
+
+        <div style="margin-top: 3rem; padding: 2rem; background: #f7fafc; border-radius: 10px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">À propos de cette démo</h3>
+            <p style="color: #666; line-height: 1.8;">
+                Cette application de démonstration présente les capacités des composants Symfony UX.
+                Chaque section illustre un composant différent avec des exemples concrets et du code réutilisable.
+                Symfony UX combine la puissance de Symfony avec des bibliothèques JavaScript modernes pour créer
+                des expériences utilisateur riches et réactives.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

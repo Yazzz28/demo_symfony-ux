@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Turbo Demo - Symfony UX{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Démonstration Turbo</h1>
+        <p>Navigation rapide et mises à jour dynamiques sans rechargement complet de la page</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .info-box {
+                background: #e0e7ff;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                border-left: 4px solid #667eea;
+            }
+
+            .info-box h3 {
+                color: #667eea;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box p {
+                color: #4c51bf;
+                line-height: 1.6;
+            }
+
+            .turbo-demo-section {
+                margin-top: 2rem;
+            }
+
+            .turbo-frames-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                margin-top: 1.5rem;
+            }
+
+            .turbo-frame-container {
+                background: #f7fafc;
+                padding: 1.5rem;
+                border-radius: 10px;
+                border: 2px solid #e2e8f0;
+            }
+
+            .turbo-frame-container h3 {
+                color: #667eea;
+                margin-bottom: 1rem;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background: #667eea;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: all 0.3s;
+                border: none;
+                cursor: pointer;
+                font-size: 1rem;
+            }
+
+            .btn:hover {
+                background: #764ba2;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+            .loading-indicator {
+                display: none;
+                color: #667eea;
+                font-style: italic;
+                margin-top: 0.5rem;
+            }
+
+            turbo-frame[busy] + .loading-indicator {
+                display: block;
+            }
+
+            .feature-list {
+                margin-top: 2rem;
+                padding: 2rem;
+                background: #f7fafc;
+                border-radius: 10px;
+            }
+
+            .feature-list h3 {
+                color: #667eea;
+                margin-bottom: 1rem;
+            }
+
+            .feature-list ul {
+                color: #666;
+                line-height: 2;
+                padding-left: 2rem;
+            }
+        </style>
+
+        <div class="info-box">
+            <h3>À propos de Symfony UX Turbo</h3>
+            <p>
+                Turbo accélère votre application en interceptant les clics et les soumissions de formulaires
+                pour les transformer en requêtes AJAX. Il met à jour uniquement les parties nécessaires de la page,
+                offrant une expérience utilisateur fluide et réactive.
+            </p>
+        </div>
+
+        <div class="turbo-demo-section">
+            <h2 style="color: #667eea; margin-bottom: 1rem;">Turbo Frames - Chargement Dynamique</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">
+                Cliquez sur les boutons ci-dessous pour charger du contenu dynamiquement sans recharger la page entière.
+                Chaque frame se met à jour indépendamment.
+            </p>
+
+            <div class="turbo-frames-grid">
+                <div class="turbo-frame-container">
+                    <h3>Frame 1</h3>
+                    <turbo-frame id="frame1" src="{{ path('ux_demo_turbo_frame1') }}">
+                        <p>Chargement du contenu...</p>
+                    </turbo-frame>
+                    <div class="loading-indicator">Chargement en cours...</div>
+                </div>
+
+                <div class="turbo-frame-container">
+                    <h3>Frame 2</h3>
+                    <turbo-frame id="frame2" src="{{ path('ux_demo_turbo_frame2') }}">
+                        <p>Chargement du contenu...</p>
+                    </turbo-frame>
+                    <div class="loading-indicator">Chargement en cours...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="turbo-demo-section">
+            <h2 style="color: #667eea; margin-bottom: 1rem; margin-top: 3rem;">Navigation Turbo Drive</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">
+                Toute navigation dans cette application utilise Turbo Drive. Essayez de naviguer entre les pages
+                et observez la vitesse de chargement - la page n'est jamais complètement rechargée!
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="{{ path('ux_demo_index') }}" class="btn">Accueil</a>
+                <a href="{{ path('ux_demo_chartjs') }}" class="btn">Chart.js</a>
+                <a href="{{ path('ux_demo_map') }}" class="btn">Map</a>
+                <a href="{{ path('ux_demo_stimulus') }}" class="btn">Stimulus</a>
+            </div>
+        </div>
+
+        <div class="feature-list">
+            <h3>Fonctionnalités Turbo</h3>
+            <ul>
+                <li><strong>Turbo Drive:</strong> Navigation rapide sans rechargement complet de la page</li>
+                <li><strong>Turbo Frames:</strong> Chargement de contenu dans des zones spécifiques</li>
+                <li><strong>Turbo Streams:</strong> Mises à jour en temps réel de plusieurs parties de la page</li>
+                <li><strong>Progressif:</strong> Fonctionne même sans JavaScript (graceful degradation)</li>
+                <li><strong>Performance:</strong> Réduit la bande passante et améliore la réactivité</li>
+                <li><strong>Cache intelligent:</strong> Retour instantané aux pages visitées</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1.5rem; background: #fef3c7; border-radius: 10px; border-left: 4px solid #f59e0b;">
+            <h4 style="color: #d97706; margin-bottom: 0.5rem;">Astuce</h4>
+            <p style="color: #92400e; line-height: 1.6;">
+                Ouvrez les outils de développement de votre navigateur et observez l'onglet Réseau.
+                Vous verrez que seules des requêtes AJAX sont effectuées lors de la navigation!
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{$SERVER_NAME:localhost} {
+    log {
+        level INFO
+    }
+
+    root * /app/public
+
+    # Compression
+    encode zstd gzip
+
+    # PHP-FPM avec FrankenPHP
+    php_server
+
+    # Servir les fichiers statiques directement
+    @static {
+        file
+        path *.css *.js *.ico *.png *.jpg *.jpeg *.gif *.svg *.woff *.woff2 *.ttf *.eot
+    }
+    handle @static {
+        file_server
+    }
+
+    # Réécriture pour le front controller
+    try_files {path} /index.php?{query}
+
+    # Headers de sécurité
+    header {
+        # Désactiver l'affichage du serveur
+        -Server
+        # Activer les protections XSS
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "no-referrer-when-downgrade"
+    }
+}
