@@ -161,51 +161,165 @@ class UxDemoController extends AbstractController
     #[Route('/map', name: 'ux_demo_map')]
     public function map(): Response
     {
-        // Création de la carte centrée sur Paris
+        // Création de la carte centrée sur l'Europe avec un zoom adapté pour voir tous les campus
         $map = (new Map())
             ->center(new Point(48.8566, 2.3522))
-            ->zoom(12);
+            ->zoom(3); 
 
-        // Ajout de marqueurs pour différents lieux touristiques de Paris
+        // Campus en France
         $map
             ->addMarker(new Marker(
-                position: new Point(48.8584, 2.2945),
-                title: 'Tour Eiffel',
+                position: new Point(48.8566, 2.3522),
+                title: 'OMNES Education Paris',
                 infoWindow: new InfoWindow(
-                    headerContent: '<strong>Tour Eiffel</strong>',
-                    content: 'Monument emblématique de Paris'
+                    headerContent: '<strong>Campus Paris</strong>',
+                    content: 'ESCE, ECE Executive Education, INSEEC, HEIP, Sup Career, Sup de Création, Sup de Pub'
                 )
             ))
             ->addMarker(new Marker(
-                position: new Point(48.8606, 2.3376),
-                title: 'Musée du Louvre',
+                position: new Point(45.7640, 4.8357),
+                title: 'OMNES Education Lyon',
                 infoWindow: new InfoWindow(
-                    headerContent: '<strong>Musée du Louvre</strong>',
-                    content: 'Le plus grand musée d\'art au monde'
+                    headerContent: '<strong>Campus Lyon</strong>',
+                    content: 'ESCE, ECE, HEIP, INSEEC'
                 )
             ))
             ->addMarker(new Marker(
-                position: new Point(48.8530, 2.3499),
-                title: 'Cathédrale Notre-Dame',
+                position: new Point(44.8378, -0.5792),
+                title: 'OMNES Education Bordeaux',
                 infoWindow: new InfoWindow(
-                    headerContent: '<strong>Notre-Dame de Paris</strong>',
-                    content: 'Cathédrale gothique historique'
+                    headerContent: '<strong>Campus Bordeaux</strong>',
+                    content: 'ECE, INSEEC'
                 )
             ))
             ->addMarker(new Marker(
-                position: new Point(48.8867, 2.3431),
-                title: 'Sacré-Cœur',
+                position: new Point(45.5647, 5.9178),
+                title: 'OMNES Education Chambéry',
                 infoWindow: new InfoWindow(
-                    headerContent: '<strong>Basilique du Sacré-Cœur</strong>',
-                    content: 'Située au sommet de Montmartre'
+                    headerContent: '<strong>Campus Chambéry</strong>',
+                    content: 'INSEEC'
                 )
             ))
             ->addMarker(new Marker(
-                position: new Point(48.8738, 2.2950),
-                title: 'Arc de Triomphe',
+                position: new Point(47.0230, 4.8336),
+                title: 'OMNES Education Beaune',
                 infoWindow: new InfoWindow(
-                    headerContent: '<strong>Arc de Triomphe</strong>',
-                    content: 'Monument commémoratif'
+                    headerContent: '<strong>Campus Beaune</strong>',
+                    content: 'INSEEC'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(48.1173, -1.6778),
+                title: 'OMNES Education Rennes',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Rennes</strong>',
+                    content: 'ECE, HEIP, INSEEC, Sup de Pub'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(43.2965, 5.3698),
+                title: 'OMNES Education Marseille',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Marseille</strong>',
+                    content: 'INSEEC, ESCE, ECE, HEIP, Sup de Création, Sup de Pub'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(43.6047, 1.4442),
+                title: 'OMNES Education Toulouse',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Toulouse</strong>',
+                    content: 'Campus en développement'
+                )
+            ))
+
+            // Campus internationaux
+            ->addMarker(new Marker(
+                position: new Point(5.3600, -4.0083),
+                title: 'OMNES Education Abidjan',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Abidjan</strong>',
+                    content: 'IFG Executive Education'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(41.3851, 2.1734),
+                title: 'OMNES Education Barcelone',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Barcelone</strong>',
+                    content: 'EU Business School'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(46.2044, 6.1432),
+                title: 'OMNES Education Genève',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Genève</strong>',
+                    content: 'CREA, EU Business School'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(46.5197, 6.6323),
+                title: 'OMNES Education Lausanne',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Lausanne</strong>',
+                    content: 'CREA'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(51.5074, -0.1278),
+                title: 'OMNES Education Londres',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Londres</strong>',
+                    content: 'Campus multi-écoles'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(40.4168, -3.7038),
+                title: 'OMNES Education Madrid',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Madrid</strong>',
+                    content: 'Campus international'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(43.7384, 7.4246),
+                title: 'OMNES Education Monaco',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Monaco</strong>',
+                    content: 'IUM'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(48.1351, 11.5820),
+                title: 'OMNES Education Munich',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Munich</strong>',
+                    content: 'EU Business School'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(37.7749, -122.4194),
+                title: 'OMNES Education San Francisco',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus San Francisco</strong>',
+                    content: 'Campus multi-écoles'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(37.3891, -5.9845),
+                title: 'OMNES Education Séville',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Séville</strong>',
+                    content: 'Campus international'
+                )
+            ))
+            ->addMarker(new Marker(
+                position: new Point(39.4699, -0.3763),
+                title: 'OMNES Education Valence',
+                infoWindow: new InfoWindow(
+                    headerContent: '<strong>Campus Valence</strong>',
+                    content: 'Campus international'
                 )
             ));
 
