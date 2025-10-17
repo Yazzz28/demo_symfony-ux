@@ -164,7 +164,7 @@ class UxDemoController extends AbstractController
         // Création de la carte centrée sur l'Europe avec un zoom adapté pour voir tous les campus
         $map = (new Map())
             ->center(new Point(48.8566, 2.3522))
-            ->zoom(3); 
+            ->zoom(3);
 
         // Campus en France
         $map
