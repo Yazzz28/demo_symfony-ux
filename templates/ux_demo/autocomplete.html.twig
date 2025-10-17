@@ -1,0 +1,323 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autocomplete Demo - Symfony UX{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Démonstration Autocomplete</h1>
+        <p>Champ de saisie avec suggestions automatiques</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .info-box {
+                background: #e0e7ff;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                border-left: 4px solid #667eea;
+            }
+
+            .info-box h3 {
+                color: #667eea;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box p {
+                color: #4c51bf;
+                line-height: 1.6;
+            }
+
+            .demo-section {
+                margin-top: 2rem;
+                padding: 2rem;
+                background: #f7fafc;
+                border-radius: 10px;
+            }
+
+            .demo-section h3 {
+                color: #667eea;
+                margin-bottom: 1.5rem;
+            }
+
+            .autocomplete-wrapper {
+                position: relative;
+                max-width: 500px;
+                margin: 1rem 0;
+            }
+
+            .autocomplete-input {
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+                transition: all 0.3s;
+            }
+
+            .autocomplete-input:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+            .autocomplete-results {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border: 2px solid #e2e8f0;
+                border-top: none;
+                border-radius: 0 0 8px 8px;
+                max-height: 300px;
+                overflow-y: auto;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+            }
+
+            .autocomplete-item {
+                padding: 1rem;
+                cursor: pointer;
+                transition: background 0.2s;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .autocomplete-item:last-child {
+                border-bottom: none;
+            }
+
+            .autocomplete-item:hover {
+                background: #f7fafc;
+            }
+
+            .autocomplete-item.active {
+                background: #e0e7ff;
+                color: #667eea;
+            }
+
+            .autocomplete-item strong {
+                color: #667eea;
+            }
+
+            .selected-value {
+                margin-top: 1rem;
+                padding: 1rem;
+                background: #e0e7ff;
+                border-radius: 8px;
+                color: #4c51bf;
+            }
+
+            .code-example {
+                background: #2d3748;
+                color: #e2e8f0;
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-top: 2rem;
+                overflow-x: auto;
+            }
+
+            .code-example pre {
+                margin: 0;
+                font-family: 'Courier New', monospace;
+            }
+        </style>
+
+        <div class="info-box">
+            <h3>À propos d'Autocomplete</h3>
+            <p>
+                L'autocomplete (ou autocomplétion) permet d'afficher des suggestions pendant que l'utilisateur tape,
+                améliorant l'expérience utilisateur et réduisant les erreurs de saisie. C'est particulièrement utile
+                pour les recherches, les formulaires avec des listes longues, et les champs d'adresse.
+            </p>
+        </div>
+
+        <!-- Demo 1: Autocomplete simple -->
+        <div class="demo-section" data-controller="autocomplete">
+            <h3>Recherche de Pays</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Commencez à taper le nom d'un pays pour voir les suggestions.</p>
+
+            <div class="autocomplete-wrapper">
+                <input
+                    type="text"
+                    class="autocomplete-input"
+                    placeholder="Tapez le nom d'un pays..."
+                    data-autocomplete-target="input"
+                    data-action="input->autocomplete#search keydown->autocomplete#navigate"
+                >
+                <div class="autocomplete-results" data-autocomplete-target="results" style="display: none;"></div>
+            </div>
+
+            <div class="selected-value" data-autocomplete-target="selected" style="display: none;">
+                <strong>Pays sélectionné :</strong> <span data-autocomplete-target="selectedText"></span>
+            </div>
+        </div>
+
+        <!-- Demo 2: Autocomplete avec catégories -->
+        <div class="demo-section" data-controller="autocomplete">
+            <h3>Recherche de Langages de Programmation</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Recherchez parmi différentes catégories de langages.</p>
+
+            <div class="autocomplete-wrapper">
+                <input
+                    type="text"
+                    class="autocomplete-input"
+                    placeholder="JavaScript, Python, PHP..."
+                    data-autocomplete-target="input"
+                    data-action="input->autocomplete#searchLanguages keydown->autocomplete#navigate"
+                >
+                <div class="autocomplete-results" data-autocomplete-target="results" style="display: none;"></div>
+            </div>
+
+            <div class="selected-value" data-autocomplete-target="selected" style="display: none;">
+                <strong>Langage sélectionné :</strong> <span data-autocomplete-target="selectedText"></span>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div style="margin-top: 2rem; padding: 2rem; background: #f7fafc; border-radius: 10px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">Fonctionnalités de l'Autocomplete</h3>
+            <ul style="color: #666; line-height: 2; padding-left: 2rem;">
+                <li><strong>Recherche en temps réel :</strong> Suggestions mises à jour pendant la frappe</li>
+                <li><strong>Navigation au clavier :</strong> Utilisez les flèches haut/bas et Entrée</li>
+                <li><strong>Filtrage intelligent :</strong> Recherche insensible à la casse</li>
+                <li><strong>Performance optimisée :</strong> Debouncing pour éviter trop de requêtes</li>
+                <li><strong>Interface accessible :</strong> Support des lecteurs d'écran (ARIA)</li>
+                <li><strong>Personnalisable :</strong> Style et comportement adaptables</li>
+            </ul>
+        </div>
+
+        <!-- Code example -->
+        <div class="code-example">
+            <pre>&lt;div data-controller="autocomplete"&gt;
+    &lt;input
+        type="text"
+        data-autocomplete-target="input"
+        data-action="input-&gt;autocomplete#search"
+        placeholder="Rechercher..."
+    &gt;
+    &lt;div data-autocomplete-target="results"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+    </div>
+</div>
+
+<script>
+// Contrôleur Stimulus simple pour la démonstration
+document.addEventListener('DOMContentLoaded', function() {
+    const countries = [
+        'France', 'Allemagne', 'Espagne', 'Italie', 'Portugal', 'Belgique',
+        'Pays-Bas', 'Suisse', 'Autriche', 'Royaume-Uni', 'Irlande', 'Suède',
+        'Norvège', 'Danemark', 'Finlande', 'Pologne', 'République tchèque',
+        'Hongrie', 'Grèce', 'Roumanie', 'Bulgarie', 'Croatie'
+    ];
+
+    const languages = {
+        'Frontend': ['JavaScript', 'TypeScript', 'HTML', 'CSS', 'React', 'Vue.js', 'Angular'],
+        'Backend': ['PHP', 'Python', 'Java', 'C#', 'Ruby', 'Go', 'Node.js'],
+        'Mobile': ['Swift', 'Kotlin', 'React Native', 'Flutter', 'Objective-C'],
+        'Système': ['C', 'C++', 'Rust', 'Assembly']
+    };
+
+    const autocompleteElements = document.querySelectorAll('[data-controller="autocomplete"]');
+
+    autocompleteElements.forEach((element, index) => {
+        const input = element.querySelector('[data-autocomplete-target="input"]');
+        const results = element.querySelector('[data-autocomplete-target="results"]');
+        const selected = element.querySelector('[data-autocomplete-target="selected"]');
+        const selectedText = element.querySelector('[data-autocomplete-target="selectedText"]');
+
+        let currentFocus = -1;
+        const isLanguageSearch = index === 1;
+
+        input.addEventListener('input', function() {
+            const value = this.value.toLowerCase();
+            results.innerHTML = '';
+            currentFocus = -1;
+
+            if (!value) {
+                results.style.display = 'none';
+                return;
+            }
+
+            let matches = [];
+
+            if (isLanguageSearch) {
+                Object.keys(languages).forEach(category => {
+                    languages[category].forEach(lang => {
+                        if (lang.toLowerCase().includes(value)) {
+                            matches.push({ text: lang, category: category });
+                        }
+                    });
+                });
+            } else {
+                matches = countries.filter(c => c.toLowerCase().includes(value)).map(c => ({ text: c }));
+            }
+
+            if (matches.length > 0) {
+                matches.forEach((match, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+
+                    if (match.category) {
+                        div.innerHTML = '<strong>' + match.text + '</strong> <span style="color: #999;">(' + match.category + ')</span>';
+                    } else {
+                        div.innerHTML = '<strong>' + match.text + '</strong>';
+                    }
+
+                    div.addEventListener('click', function() {
+                        input.value = match.text;
+                        selectedText.textContent = match.text;
+                        selected.style.display = 'block';
+                        results.style.display = 'none';
+                    });
+
+                    results.appendChild(div);
+                });
+                results.style.display = 'block';
+            } else {
+                results.style.display = 'none';
+            }
+        });
+
+        input.addEventListener('keydown', function(e) {
+            const items = results.querySelectorAll('.autocomplete-item');
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentFocus++;
+                addActive(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentFocus--;
+                addActive(items);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentFocus > -1 && items[currentFocus]) {
+                    items[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(items) {
+            if (!items) return false;
+            removeActive(items);
+            if (currentFocus >= items.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = items.length - 1;
+            items[currentFocus].classList.add('active');
+        }
+
+        function removeActive(items) {
+            items.forEach(item => item.classList.remove('active'));
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!element.contains(e.target)) {
+                results.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

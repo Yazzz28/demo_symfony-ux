@@ -361,4 +361,28 @@ class UxDemoController extends AbstractController
     {
         return $this->render('ux_demo/docs.html.twig');
     }
+
+    #[Route('/autocomplete', name: 'ux_demo_autocomplete')]
+    public function autocomplete(): Response
+    {
+        return $this->render('ux_demo/autocomplete.html.twig');
+    }
+
+    #[Route('/dropzone', name: 'ux_demo_dropzone')]
+    public function dropzone(): Response
+    {
+        return $this->render('ux_demo/dropzone.html.twig');
+    }
+
+    #[Route('/cropper', name: 'ux_demo_cropper')]
+    public function cropper(): Response
+    {
+        return $this->render('ux_demo/cropper.html.twig');
+    }
+
+    #[Route('/notify', name: 'ux_demo_notify')]
+    public function notify(): Response
+    {
+        return $this->render('ux_demo/notify.html.twig');
+    }
 }

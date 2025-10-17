@@ -1,0 +1,482 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notify Demo - Symfony UX{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Démonstration Notify</h1>
+        <p>Système de notifications et toasts</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .info-box {
+                background: #e0e7ff;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                border-left: 4px solid #667eea;
+            }
+
+            .info-box h3 {
+                color: #667eea;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box p {
+                color: #4c51bf;
+                line-height: 1.6;
+            }
+
+            .demo-section {
+                margin-top: 2rem;
+                padding: 2rem;
+                background: #f7fafc;
+                border-radius: 10px;
+            }
+
+            .demo-section h3 {
+                color: #667eea;
+                margin-bottom: 1.5rem;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                margin: 0.5rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 1rem;
+                transition: all 0.3s;
+                font-weight: 500;
+            }
+
+            .btn-success {
+                background: #10b981;
+                color: white;
+            }
+
+            .btn-success:hover {
+                background: #059669;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            }
+
+            .btn-info {
+                background: #3b82f6;
+                color: white;
+            }
+
+            .btn-info:hover {
+                background: #2563eb;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            }
+
+            .btn-warning {
+                background: #f59e0b;
+                color: white;
+            }
+
+            .btn-warning:hover {
+                background: #d97706;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            }
+
+            .btn-error {
+                background: #ef4444;
+                color: white;
+            }
+
+            .btn-error:hover {
+                background: #dc2626;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            }
+
+            .btn-purple {
+                background: #667eea;
+                color: white;
+            }
+
+            .btn-purple:hover {
+                background: #764ba2;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            }
+
+            /* Toast Container */
+            .toast-container {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            /* Toast Notification */
+            .toast {
+                min-width: 300px;
+                max-width: 400px;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                padding: 1rem;
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                animation: slideIn 0.3s ease-out;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .toast.removing {
+                animation: slideOut 0.3s ease-out forwards;
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+
+            .toast-icon {
+                font-size: 1.5rem;
+                flex-shrink: 0;
+            }
+
+            .toast-content {
+                flex: 1;
+            }
+
+            .toast-title {
+                font-weight: bold;
+                margin-bottom: 0.25rem;
+                color: #2d3748;
+            }
+
+            .toast-message {
+                color: #718096;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+
+            .toast-close {
+                background: none;
+                border: none;
+                color: #a0aec0;
+                cursor: pointer;
+                font-size: 1.25rem;
+                padding: 0;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                transition: all 0.2s;
+            }
+
+            .toast-close:hover {
+                background: #f7fafc;
+                color: #4a5568;
+            }
+
+            .toast-progress {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                background: currentColor;
+                animation: progress 5s linear;
+            }
+
+            @keyframes progress {
+                from {
+                    width: 100%;
+                }
+                to {
+                    width: 0%;
+                }
+            }
+
+            .toast.success .toast-progress {
+                color: #10b981;
+            }
+
+            .toast.info .toast-progress {
+                color: #3b82f6;
+            }
+
+            .toast.warning .toast-progress {
+                color: #f59e0b;
+            }
+
+            .toast.error .toast-progress {
+                color: #ef4444;
+            }
+
+            .toast.success { border-left: 4px solid #10b981; }
+            .toast.info { border-left: 4px solid #3b82f6; }
+            .toast.warning { border-left: 4px solid #f59e0b; }
+            .toast.error { border-left: 4px solid #ef4444; }
+
+            .button-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .position-demo {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .code-example {
+                background: #2d3748;
+                color: #e2e8f0;
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-top: 2rem;
+                overflow-x: auto;
+            }
+
+            .code-example pre {
+                margin: 0;
+                font-family: 'Courier New', monospace;
+            }
+
+            @media (max-width: 768px) {
+                .toast-container {
+                    left: 20px;
+                    right: 20px;
+                }
+
+                .toast {
+                    min-width: auto;
+                }
+            }
+        </style>
+
+        <div class="info-box">
+            <h3>À propos des Notifications</h3>
+            <p>
+                Les notifications toast sont des messages non-intrusifs qui apparaissent temporairement pour informer
+                l'utilisateur d'événements importants : succès d'une action, erreurs, avertissements, ou informations.
+                Elles disparaissent automatiquement et peuvent être fermées manuellement.
+            </p>
+        </div>
+
+        <!-- Demo 1: Basic Toasts -->
+        <div class="demo-section">
+            <h3>Notifications de base</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Cliquez sur les boutons pour afficher différents types de notifications.</p>
+
+            <div class="button-grid">
+                <button class="btn btn-success" onclick="showToast('success', 'Opération réussie !', 'Vos modifications ont été enregistrées avec succès.')">
+                    ✓ Succès
+                </button>
+                <button class="btn btn-info" onclick="showToast('info', 'Information', 'Une nouvelle mise à jour est disponible.')">
+                    ℹ Information
+                </button>
+                <button class="btn btn-warning" onclick="showToast('warning', 'Attention', 'Certaines données doivent être vérifiées.')">
+                    ⚠ Avertissement
+                </button>
+                <button class="btn btn-error" onclick="showToast('error', 'Erreur', 'Une erreur est survenue lors de l\'enregistrement.')">
+                    ✕ Erreur
+                </button>
+            </div>
+        </div>
+
+        <!-- Demo 2: Advanced Toasts -->
+        <div class="demo-section">
+            <h3>Notifications avancées</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Testez différentes variantes et durées de notifications.</p>
+
+            <div class="button-grid">
+                <button class="btn btn-purple" onclick="showToast('success', 'Connexion établie', 'Vous êtes maintenant connecté à votre compte.', 3000)">
+                    Courte (3s)
+                </button>
+                <button class="btn btn-purple" onclick="showToast('info', 'Téléchargement en cours', 'Le fichier sera disponible dans quelques instants...', 7000)">
+                    Longue (7s)
+                </button>
+                <button class="btn btn-purple" onclick="showToast('warning', 'Action en attente', 'Veuillez patienter pendant le traitement de votre demande. Cela peut prendre quelques minutes.', 10000)">
+                    Très longue (10s)
+                </button>
+                <button class="btn btn-purple" onclick="showMultipleToasts()">
+                    Multiple toasts
+                </button>
+            </div>
+        </div>
+
+        <!-- Demo 3: Action Simulations -->
+        <div class="demo-section">
+            <h3>Simulations d'actions</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Exemples de notifications dans des scénarios réels.</p>
+
+            <div class="button-grid">
+                <button class="btn btn-success" onclick="simulateUpload()">
+                    📤 Upload fichier
+                </button>
+                <button class="btn btn-info" onclick="simulateSync()">
+                    🔄 Synchroniser
+                </button>
+                <button class="btn btn-warning" onclick="simulateWarning()">
+                    🔋 Batterie faible
+                </button>
+                <button class="btn btn-error" onclick="simulateError()">
+                    🔌 Connexion perdue
+                </button>
+                <button class="btn btn-success" onclick="simulateSave()">
+                    💾 Enregistrer
+                </button>
+                <button class="btn btn-info" onclick="simulateMessage()">
+                    ✉️ Nouveau message
+                </button>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div style="margin-top: 2rem; padding: 2rem; background: #f7fafc; border-radius: 10px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">Fonctionnalités des Notifications</h3>
+            <ul style="color: #666; line-height: 2; padding-left: 2rem;">
+                <li><strong>Types multiples :</strong> Succès, Information, Avertissement, Erreur</li>
+                <li><strong>Disparition automatique :</strong> Timer configurable avec barre de progression</li>
+                <li><strong>Fermeture manuelle :</strong> Bouton de fermeture sur chaque notification</li>
+                <li><strong>Empilage intelligent :</strong> Gestion de multiples notifications simultanées</li>
+                <li><strong>Animations fluides :</strong> Entrée et sortie animées</li>
+                <li><strong>Responsive :</strong> Adaptation automatique sur mobile</li>
+            </ul>
+        </div>
+
+        <!-- Code example -->
+        <div class="code-example">
+            <pre>&lt;button onclick="showToast('success', 'Titre', 'Message')"&gt;
+    Afficher notification
+&lt;/button&gt;
+
+&lt;script&gt;
+function showToast(type, title, message, duration = 5000) {
+    const toast = createToastElement(type, title, message);
+    document.querySelector('.toast-container').appendChild(toast);
+
+    setTimeout(() => removeToast(toast), duration);
+}
+&lt;/script&gt;</pre>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container"></div>
+
+<script>
+const toastIcons = {
+    success: '✓',
+    info: 'ℹ',
+    warning: '⚠',
+    error: '✕'
+};
+
+function showToast(type, title, message, duration = 5000) {
+    const container = document.querySelector('.toast-container');
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+
+    toast.innerHTML = `
+        <div class="toast-icon">${toastIcons[type]}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="removeToast(this.parentElement)">×</button>
+        <div class="toast-progress"></div>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        removeToast(toast);
+    }, duration);
+}
+
+function removeToast(toast) {
+    if (!toast || toast.classList.contains('removing')) return;
+
+    toast.classList.add('removing');
+    setTimeout(() => {
+        if (toast.parentElement) {
+            toast.parentElement.removeChild(toast);
+        }
+    }, 300);
+}
+
+function showMultipleToasts() {
+    showToast('info', 'Tâche 1', 'Préparation des données...', 6000);
+    setTimeout(() => {
+        showToast('info', 'Tâche 2', 'Traitement en cours...', 6000);
+    }, 500);
+    setTimeout(() => {
+        showToast('success', 'Tâche 3', 'Traitement terminé avec succès !', 6000);
+    }, 1000);
+}
+
+function simulateUpload() {
+    showToast('info', 'Upload en cours', 'Envoi du fichier "document.pdf"...', 3000);
+    setTimeout(() => {
+        showToast('success', 'Upload terminé', 'Le fichier a été envoyé avec succès.', 4000);
+    }, 3000);
+}
+
+function simulateSync() {
+    showToast('info', 'Synchronisation', 'Synchronisation des données en cours...', 4000);
+    setTimeout(() => {
+        showToast('success', 'Synchronisé', 'Toutes vos données sont à jour.', 4000);
+    }, 4000);
+}
+
+function simulateWarning() {
+    showToast('warning', 'Batterie faible', 'Il reste moins de 20% de batterie. Pensez à brancher votre appareil.', 6000);
+}
+
+function simulateError() {
+    showToast('error', 'Connexion perdue', 'Impossible de se connecter au serveur. Vérifiez votre connexion internet.', 6000);
+}
+
+function simulateSave() {
+    showToast('info', 'Enregistrement', 'Sauvegarde en cours...', 2000);
+    setTimeout(() => {
+        showToast('success', 'Document enregistré', 'Vos modifications ont été sauvegardées.', 4000);
+    }, 2000);
+}
+
+function simulateMessage() {
+    showToast('info', 'Nouveau message', 'Vous avez reçu un message de Jean Dupont : "Bonjour, as-tu vu mon dernier email ?"', 7000);
+}
+</script>
+{% endblock %}

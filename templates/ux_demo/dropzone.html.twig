@@ -1,0 +1,314 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dropzone Demo - Symfony UX{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Démonstration Dropzone</h1>
+        <p>Zone de dépôt de fichiers avec drag & drop</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .info-box {
+                background: #e0e7ff;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                border-left: 4px solid #667eea;
+            }
+
+            .info-box h3 {
+                color: #667eea;
+                margin-bottom: 0.5rem;
+            }
+
+            .info-box p {
+                color: #4c51bf;
+                line-height: 1.6;
+            }
+
+            .demo-section {
+                margin-top: 2rem;
+                padding: 2rem;
+                background: #f7fafc;
+                border-radius: 10px;
+            }
+
+            .demo-section h3 {
+                color: #667eea;
+                margin-bottom: 1.5rem;
+            }
+
+            .dropzone {
+                border: 3px dashed #cbd5e0;
+                border-radius: 12px;
+                padding: 3rem;
+                text-align: center;
+                transition: all 0.3s;
+                cursor: pointer;
+                background: white;
+            }
+
+            .dropzone:hover {
+                border-color: #667eea;
+                background: #f7fafc;
+            }
+
+            .dropzone.drag-over {
+                border-color: #667eea;
+                background: #e0e7ff;
+                transform: scale(1.02);
+            }
+
+            .dropzone-icon {
+                font-size: 4rem;
+                margin-bottom: 1rem;
+            }
+
+            .dropzone-text {
+                color: #667eea;
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+
+            .dropzone-hint {
+                color: #999;
+                font-size: 0.9rem;
+            }
+
+            .file-list {
+                margin-top: 1.5rem;
+            }
+
+            .file-item {
+                background: white;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                transition: all 0.3s;
+            }
+
+            .file-item:hover {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .file-info {
+                display: flex;
+                align-items: center;
+                flex: 1;
+            }
+
+            .file-icon {
+                font-size: 2rem;
+                margin-right: 1rem;
+            }
+
+            .file-details {
+                flex: 1;
+            }
+
+            .file-name {
+                font-weight: bold;
+                color: #2d3748;
+                margin-bottom: 0.25rem;
+            }
+
+            .file-size {
+                color: #999;
+                font-size: 0.9rem;
+            }
+
+            .file-progress {
+                width: 100%;
+                height: 4px;
+                background: #e2e8f0;
+                border-radius: 2px;
+                margin-top: 0.5rem;
+                overflow: hidden;
+            }
+
+            .file-progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                transition: width 0.3s;
+            }
+
+            .file-status {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .status-badge {
+                padding: 0.25rem 0.75rem;
+                border-radius: 12px;
+                font-size: 0.85rem;
+                font-weight: bold;
+            }
+
+            .status-badge.success {
+                background: #c6f6d5;
+                color: #22543d;
+            }
+
+            .status-badge.uploading {
+                background: #fef3c7;
+                color: #92400e;
+            }
+
+            .btn-remove {
+                background: #ef4444;
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            .btn-remove:hover {
+                background: #dc2626;
+            }
+
+            .upload-stats {
+                display: flex;
+                gap: 2rem;
+                margin-top: 1.5rem;
+                padding: 1rem;
+                background: #e0e7ff;
+                border-radius: 8px;
+            }
+
+            .stat-item {
+                text-align: center;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #667eea;
+            }
+
+            .stat-label {
+                color: #4c51bf;
+                font-size: 0.9rem;
+            }
+
+            .code-example {
+                background: #2d3748;
+                color: #e2e8f0;
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-top: 2rem;
+                overflow-x: auto;
+            }
+
+            .code-example pre {
+                margin: 0;
+                font-family: 'Courier New', monospace;
+            }
+        </style>
+
+        <div class="info-box">
+            <h3>À propos de Dropzone</h3>
+            <p>
+                Dropzone est une solution élégante pour gérer l'upload de fichiers avec drag & drop.
+                Elle permet aux utilisateurs de glisser-déposer des fichiers directement dans le navigateur,
+                offrant une expérience moderne et intuitive avec preview, progression et validation.
+            </p>
+        </div>
+
+        <!-- Demo 1: Simple Dropzone -->
+        <div class="demo-section" data-controller="dropzone">
+            <h3>Zone de dépôt simple</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Glissez-déposez des fichiers ou cliquez pour sélectionner.</p>
+
+            <div class="dropzone"
+                 data-dropzone-target="zone"
+                 data-action="click->dropzone#click dragover->dropzone#dragOver dragleave->dropzone#dragLeave drop->dropzone#drop">
+                <div class="dropzone-icon">📁</div>
+                <div class="dropzone-text">Glissez vos fichiers ici</div>
+                <div class="dropzone-hint">ou cliquez pour parcourir</div>
+                <input type="file"
+                       data-dropzone-target="input"
+                       data-action="change->dropzone#handleFileSelect"
+                       multiple
+                       style="display: none;">
+            </div>
+
+            <div class="file-list" data-dropzone-target="fileList"></div>
+
+            <div class="upload-stats">
+                <div class="stat-item">
+                    <div class="stat-value" data-dropzone-target="fileCount">0</div>
+                    <div class="stat-label">Fichiers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" data-dropzone-target="totalSize">0 KB</div>
+                    <div class="stat-label">Taille totale</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo 2: Image Dropzone with Preview -->
+        <div class="demo-section" data-controller="dropzone" data-dropzone-accept-images-value="true">
+            <h3>Zone de dépôt d'images avec aperçu</h3>
+            <p style="color: #666; margin-bottom: 1rem;">Accepte uniquement les images (PNG, JPG, GIF).</p>
+
+            <div class="dropzone"
+                 data-dropzone-target="zone"
+                 data-action="click->dropzone#click dragover->dropzone#dragOver dragleave->dropzone#dragLeave drop->dropzone#drop">
+                <div class="dropzone-icon">🖼️</div>
+                <div class="dropzone-text">Glissez vos images ici</div>
+                <div class="dropzone-hint">PNG, JPG, GIF - Max 5MB</div>
+                <input type="file"
+                       data-dropzone-target="input"
+                       data-action="change->dropzone#handleFileSelect"
+                       multiple
+                       accept="image/*"
+                       style="display: none;">
+            </div>
+
+            <div class="file-list" data-dropzone-target="fileList"></div>
+        </div>
+
+        <!-- Features -->
+        <div style="margin-top: 2rem; padding: 2rem; background: #f7fafc; border-radius: 10px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">Fonctionnalités de Dropzone</h3>
+            <ul style="color: #666; line-height: 2; padding-left: 2rem;">
+                <li><strong>Drag & Drop :</strong> Interface intuitive avec glisser-déposer</li>
+                <li><strong>Multi-fichiers :</strong> Upload de plusieurs fichiers simultanément</li>
+                <li><strong>Validation :</strong> Contrôle du type et de la taille des fichiers</li>
+                <li><strong>Aperçu :</strong> Preview des images avant upload</li>
+                <li><strong>Progression :</strong> Barre de progression pour chaque fichier</li>
+                <li><strong>Gestion des erreurs :</strong> Messages clairs en cas de problème</li>
+            </ul>
+        </div>
+
+        <!-- Code example -->
+        <div class="code-example">
+            <pre>&lt;div data-controller="dropzone"&gt;
+    &lt;div class="dropzone"
+         data-dropzone-target="zone"
+         data-action="click-&gt;dropzone#click
+                      dragover-&gt;dropzone#dragOver
+                      drop-&gt;dropzone#drop"&gt;
+        &lt;div class="dropzone-text"&gt;Glissez vos fichiers ici&lt;/div&gt;
+        &lt;input type="file"
+               data-dropzone-target="input"
+               data-action="change-&gt;dropzone#handleFileSelect"
+               multiple&gt;
+    &lt;/div&gt;
+    &lt;div data-dropzone-target="fileList"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
