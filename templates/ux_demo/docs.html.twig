@@ -1,0 +1,974 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documentation Symfony UX - Guide pour développeurs{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Documentation Symfony UX</h1>
+        <p>Guide complet pour intégrer Symfony UX dans vos projets</p>
+    </div>
+
+    <div class="content">
+        <style>
+            .doc-section {
+                margin-bottom: 3rem;
+                padding-bottom: 2rem;
+                border-bottom: 2px solid #e2e8f0;
+            }
+
+            .doc-section:last-child {
+                border-bottom: none;
+            }
+
+            .doc-section h2 {
+                color: #667eea;
+                margin-bottom: 1rem;
+                font-size: 2rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .doc-section h3 {
+                color: #764ba2;
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+            }
+
+            .doc-section h4 {
+                color: #667eea;
+                margin-top: 1.5rem;
+                margin-bottom: 0.5rem;
+                font-size: 1.2rem;
+            }
+
+            .code-block {
+                background: #2d3748;
+                color: #e2e8f0;
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin: 1rem 0;
+                overflow-x: auto;
+                font-family: 'Courier New', monospace;
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .code-block code {
+                color: #e2e8f0;
+                white-space: pre;
+                display: block;
+            }
+
+            .inline-code {
+                background: #e0e7ff;
+                color: #4c51bf;
+                padding: 0.2rem 0.5rem;
+                border-radius: 4px;
+                font-family: 'Courier New', monospace;
+                font-size: 0.9rem;
+            }
+
+            .info-box {
+                background: #e0e7ff;
+                border-left: 4px solid #667eea;
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+                border-radius: 8px;
+            }
+
+            .info-box strong {
+                color: #667eea;
+                font-size: 1.1rem;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+
+            .warning-box {
+                background: #fef3c7;
+                border-left: 4px solid #f59e0b;
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+                border-radius: 8px;
+            }
+
+            .warning-box strong {
+                color: #d97706;
+                font-size: 1.1rem;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+
+            .success-box {
+                background: #d1fae5;
+                border-left: 4px solid #10b981;
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+                border-radius: 8px;
+            }
+
+            .success-box strong {
+                color: #059669;
+                font-size: 1.1rem;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+
+            ul, ol {
+                margin: 1rem 0;
+                padding-left: 2rem;
+                line-height: 1.8;
+            }
+
+            li {
+                margin: 0.5rem 0;
+            }
+
+            .toc {
+                background: #f7fafc;
+                padding: 2rem;
+                border-radius: 10px;
+                margin-bottom: 3rem;
+            }
+
+            .toc h2 {
+                color: #667eea;
+                margin-bottom: 1rem;
+            }
+
+            .toc ul {
+                list-style: none;
+                padding-left: 0;
+            }
+
+            .toc li {
+                margin: 0.5rem 0;
+            }
+
+            .toc a {
+                color: #4c51bf;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+            .toc a:hover {
+                color: #667eea;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 1.5rem 0;
+            }
+
+            table th {
+                background: #667eea;
+                color: white;
+                padding: 1rem;
+                text-align: left;
+            }
+
+            table td {
+                padding: 1rem;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            table tr:hover {
+                background: #f7fafc;
+            }
+        </style>
+
+        <!-- Table des matières -->
+        <div class="toc">
+            <h2>Table des matières</h2>
+            <ul>
+                <li><a href="#intro">Introduction à Symfony UX</a></li>
+                <li><a href="#installation">Installation et configuration</a></li>
+                <li><a href="#chartjs">UX Chart.js - Graphiques interactifs</a></li>
+                <li><a href="#map">UX Map - Cartes interactives</a></li>
+                <li><a href="#turbo">UX Turbo - Navigation ultra-rapide</a></li>
+                <li><a href="#stimulus">Stimulus - Contrôleurs JavaScript</a></li>
+                <li><a href="#advanced">Cas d'usage avancés</a></li>
+                <li><a href="#resources">Ressources et liens utiles</a></li>
+            </ul>
+        </div>
+
+        <!-- Introduction -->
+        <div class="doc-section" id="intro">
+            <h2>🚀 Introduction à Symfony UX</h2>
+            <p>
+                <strong>Symfony UX</strong> est une initiative qui regroupe plusieurs bibliothèques JavaScript et PHP
+                permettant d'intégrer facilement des fonctionnalités frontend modernes dans vos applications Symfony.
+            </p>
+
+            <div class="info-box">
+                <strong>Pourquoi Symfony UX ?</strong>
+                <ul>
+                    <li>Intégration transparente avec Symfony et Twig</li>
+                    <li>Configuration minimale, focus sur le code métier</li>
+                    <li>Compatibilité avec Webpack Encore</li>
+                    <li>Pattern Stimulus pour une architecture JavaScript claire</li>
+                    <li>Progressive Enhancement : l'application fonctionne même sans JavaScript</li>
+                </ul>
+            </div>
+
+            <h3>Composants principaux</h3>
+            <ul>
+                <li><strong>Symfony UX Chart.js</strong> : Intégration de Chart.js pour des graphiques interactifs</li>
+                <li><strong>Symfony UX Map</strong> : Cartes interactives (Leaflet, Google Maps)</li>
+                <li><strong>Symfony UX Turbo</strong> : Navigation SPA sans recharger la page</li>
+                <li><strong>Symfony UX Stimulus</strong> : Framework JavaScript léger et modulaire</li>
+                <li><strong>Et plus...</strong> : Autocomplete, Dropzone, Cropper, Notify, etc.</li>
+            </ul>
+        </div>
+
+        <!-- Installation -->
+        <div class="doc-section" id="installation">
+            <h2>📦 Installation et configuration</h2>
+
+            <h3>Prérequis</h3>
+            <ul>
+                <li>Symfony 5.4 ou 6.x</li>
+                <li>Node.js 16+ et npm</li>
+                <li>Webpack Encore configuré</li>
+            </ul>
+
+            <h3>Installation de Webpack Encore</h3>
+            <div class="code-block"><code>composer require symfony/webpack-encore-bundle
+npm install</code></div>
+
+            <h3>Configuration de base</h3>
+            <p>Créez un fichier <span class="inline-code">webpack.config.js</span> à la racine :</p>
+            <div class="code-block"><code>const Encore = require('@symfony/webpack-encore');
+
+Encore
+    .setOutputPath('public/build/')
+    .setPublicPath('/build')
+    .addEntry('app', './assets/app.js')
+    .enableStimulusBridge('./assets/controllers.json')
+    .enableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction());
+
+module.exports = Encore.getWebpackConfig();</code></div>
+
+            <h3>Installation des composants UX</h3>
+            <div class="code-block"><code>
+composer require symfony/ux-chartjs
+
+# Map (Leaflet)
+composer require symfony/ux-leaflet-map
+
+# Turbo
+composer require symfony/ux-turbo
+
+# Stimulus Bridge (déjà inclus dans Turbo)
+composer require symfony/stimulus-bundle</code>
+</code></div>
+
+            <div class="success-box">
+                <strong>Astuce :</strong>
+                Après chaque installation, lancez <span class="inline-code">npm install</span> puis
+                <span class="inline-code">npm run build</span> pour compiler les assets.
+            </div>
+        </div>
+
+        <!-- Chart.js -->
+        <div class="doc-section" id="chartjs">
+            <h2>📊 UX Chart.js - Graphiques interactifs</h2>
+
+            <h3>Vue d'ensemble</h3>
+            <p>
+                Symfony UX Chart.js permet de créer des graphiques interactifs directement depuis PHP,
+                sans écrire une ligne de JavaScript.
+            </p>
+
+            <h3>Installation</h3>
+            <div class="code-block"><code>
+npm install --force
+npm run build</code>
+</code></div>
+
+            <h3>Exemple basique - Contrôleur</h3>
+            <div class="code-block"><code>
+use Symfony\UX\Chartjs\Model\Chart;
+
+class DashboardController extends AbstractController
+{
+    #[Route('/dashboard')]
+    public function index(ChartBuilderInterface $chartBuilder): Response
+    {
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai'],
+            'datasets' => [
+                [
+                    'label' => 'Ventes 2024',
+                    'data' => [10, 20, 30, 25, 40],
+                    'backgroundColor' => 'rgba(102, 126, 234, 0.2)',
+                    'borderColor' => 'rgb(102, 126, 234)',
+                    'borderWidth' => 2,
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'responsive' => true,
+            'maintainAspectRatio' => false,
+        ]);
+
+        return $this->render('dashboard/index.html.twig', [
+            'chart' => $chart,
+        ]);
+    }
+}</code>
+</code></div>
+
+            <h3>Template Twig</h3>
+            <div class="code-block"><code>
+    &#123;&#123; render_chart(chart) &#125;&#125;
+&lt;/div&gt;</code>
+</code></div>
+
+            <h3>Types de graphiques disponibles</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Constante</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ligne</td>
+                        <td><span class="inline-code">Chart::TYPE_LINE</span></td>
+                        <td>Évolutions temporelles</td>
+                    </tr>
+                    <tr>
+                        <td>Barre</td>
+                        <td><span class="inline-code">Chart::TYPE_BAR</span></td>
+                        <td>Comparaisons</td>
+                    </tr>
+                    <tr>
+                        <td>Pie/Donut</td>
+                        <td><span class="inline-code">Chart::TYPE_PIE</span> / <span class="inline-code">Chart::TYPE_DOUGHNUT</span></td>
+                        <td>Proportions</td>
+                    </tr>
+                    <tr>
+                        <td>Radar</td>
+                        <td><span class="inline-code">Chart::TYPE_RADAR</span></td>
+                        <td>Comparaisons multi-axes</td>
+                    </tr>
+                    <tr>
+                        <td>Scatter</td>
+                        <td><span class="inline-code">Chart::TYPE_SCATTER</span></td>
+                        <td>Corrélations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Important :</strong>
+                N'oubliez pas de définir une hauteur explicite sur le conteneur du graphique,
+                sinon il ne s'affichera pas correctement.
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="doc-section" id="map">
+            <h2>🗺️ UX Map - Cartes interactives</h2>
+
+            <h3>Vue d'ensemble</h3>
+            <p>
+                Symfony UX Map facilite l'intégration de cartes interactives avec Leaflet ou Google Maps.
+                Support natif des marqueurs, polygones, polylignes et cercles.
+            </p>
+
+            <h3>Installation</h3>
+            <div class="code-block"><code>
+composer require symfony/ux-leaflet-map
+
+# Ou pour Google Maps
+composer require symfony/ux-google-map
+
+npm install --force
+npm run build</code>
+</code></div>
+
+            <h3>Configuration Leaflet CSS</h3>
+            <p>Dans votre fichier <span class="inline-code">assets/app.js</span> :</p>
+            <div class="code-block"><code>
+</code></div>
+
+            <h3>Exemple - Contrôleur</h3>
+            <div class="code-block"><code>
+use Symfony\UX\Map\Point;
+use Symfony\UX\Map\Marker;
+use Symfony\UX\Map\InfoWindow;
+
+class LocationController extends AbstractController
+{
+    #[Route('/locations')]
+    public function index(): Response
+    {
+        // Créer la carte centrée sur Paris
+        $map = (new Map())
+            ->center(new Point(48.8566, 2.3522))
+            ->zoom(12);
+
+        // Ajouter un marqueur avec info-bulle
+        $map->addMarker(new Marker(
+            position: new Point(48.8584, 2.2945),
+            title: 'Tour Eiffel',
+            infoWindow: new InfoWindow(
+                headerContent: '&lt;strong&gt;Tour Eiffel&lt;/strong&gt;',
+                content: 'Monument emblématique de Paris'
+            )
+        ));
+
+        return $this->render('location/index.html.twig', [
+            'map' => $map,
+        ]);
+    }
+}</code>
+</code></div>
+
+            <h3>Template Twig</h3>
+            <div class="code-block"><code>
+    .map-container {
+        height: 500px;
+        width: 100%;
+    }
+    .leaflet-container {
+        height: 100% !important;
+    }
+&lt;/style&gt;
+
+&lt;div class="map-container"&gt;
+    &#123;&#123; render_map(map) &#125;&#125;
+&lt;/div&gt;</code>
+</code></div>
+
+            <h3>Fonctionnalités avancées</h3>
+            <h4>Polygones</h4>
+            <div class="code-block"><code>
+
+$map->addPolygon(new Polygon(
+    points: [
+        new Point(48.8584, 2.2945),
+        new Point(48.8606, 2.3376),
+        new Point(48.8530, 2.3499),
+    ],
+    infoWindow: new InfoWindow(content: 'Zone touristique'),
+    extra: [
+        'color' => '#FF0000',
+        'fillColor' => '#FF0000',
+        'fillOpacity' => 0.3,
+    ]
+));</code>
+</code></div>
+
+            <h4>Cercles</h4>
+            <div class="code-block"><code>
+
+$map->addCircle(new Circle(
+    center: new Point(48.8566, 2.3522),
+    radius: 1000, // en mètres
+    extra: [
+        'color' => '#0000FF',
+        'fillColor' => '#0000FF',
+        'fillOpacity' => 0.2,
+    ]
+));</code>
+</code></div>
+
+            <div class="info-box">
+                <strong>Astuce :</strong>
+                Vous pouvez personnaliser les marqueurs avec des icônes personnalisées en utilisant
+                le paramètre <span class="inline-code">icon</span> de la classe Marker.
+            </div>
+        </div>
+
+        <!-- Turbo -->
+        <div class="doc-section" id="turbo">
+            <h2>⚡ UX Turbo - Navigation ultra-rapide</h2>
+
+            <h3>Vue d'ensemble</h3>
+            <p>
+                Hotwired Turbo transforme votre application Symfony en une SPA (Single Page Application)
+                sans écrire de JavaScript. Les clics sur les liens et soumissions de formulaires
+                se font en AJAX automatiquement.
+            </p>
+
+            <h3>Installation</h3>
+            <div class="code-block"><code>
+npm install --force
+npm run build</code>
+</code></div>
+
+            <div class="success-box">
+                <strong>Automatique !</strong>
+                Une fois installé, Turbo est actif sur toute l'application. Pas de configuration nécessaire.
+            </div>
+
+            <h3>Turbo Frames - Mise à jour partielle</h3>
+            <p>Les Turbo Frames permettent de mettre à jour seulement une partie de la page :</p>
+
+            <h4>Template principal</h4>
+            <div class="code-block"><code>
+    &lt;p&gt;Chargement...&lt;/p&gt;
+&lt;/turbo-frame&gt;
+
+&lt;a href="&#123;&#123; path('product_show', &#123;id: 1&#125;) &#125;&#125;"
+   data-turbo-frame="product-details"&gt;
+    Voir le produit
+&lt;/a&gt;</code>
+</code></div>
+
+            <h4>Template de détail (product/show.html.twig)</h4>
+            <div class="code-block"><code>
+    &lt;h2&gt;&#123;&#123; product.name &#125;&#125;&lt;/h2&gt;
+    &lt;p&gt;&#123;&#123; product.description &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;Prix : &#123;&#123; product.price &#125;&#125;€&lt;/p&gt;
+&lt;/turbo-frame&gt;</code>
+</code></div>
+
+            <h3>Turbo Streams - Mise à jour en temps réel</h3>
+            <p>Permet de diffuser plusieurs mises à jour simultanées :</p>
+            <div class="code-block"><code>
+use Symfony\UX\Turbo\TurboBundle;
+
+public function update(): Response
+{
+    $product = // ... récupérer le produit
+
+    if (TurboBundle::STREAM_FORMAT === $this->getRequestFormat()) {
+        $stream = $this->renderBlock('product/update.stream.html.twig', 'stream', [
+            'product' => $product,
+        ]);
+
+        return new Response($stream);
+    }
+
+    return $this->redirectToRoute('product_list');
+}</code>
+</code></div>
+
+            <div class="code-block"><code>
+&#123;% block stream %&#125;
+    &lt;turbo-stream action="replace" target="product-&#123;&#123; product.id &#125;&#125;"&gt;
+        &lt;template&gt;
+            &#123;% include 'product/_card.html.twig' %&#125;
+        &lt;/template&gt;
+    &lt;/turbo-stream&gt;
+
+    &lt;turbo-stream action="update" target="notification"&gt;
+        &lt;template&gt;
+            &lt;div class="alert alert-success"&gt;Produit mis à jour !&lt;/div&gt;
+        &lt;/template&gt;
+    &lt;/turbo-stream&gt;
+&#123;% endblock %&#125;</code>
+</code></div>
+
+            <h3>Actions Turbo Stream disponibles</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">append</span></td>
+                        <td>Ajoute le contenu à la fin de l'élément cible</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">prepend</span></td>
+                        <td>Ajoute le contenu au début de l'élément cible</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">replace</span></td>
+                        <td>Remplace l'élément cible entièrement</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">update</span></td>
+                        <td>Remplace le contenu de l'élément cible</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">remove</span></td>
+                        <td>Supprime l'élément cible</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">before</span></td>
+                        <td>Insère avant l'élément cible</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">after</span></td>
+                        <td>Insère après l'élément cible</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Attention aux scripts :</strong>
+                Placez vos scripts JavaScript dans le <span class="inline-code">&lt;head&gt;</span>
+                et non dans le <span class="inline-code">&lt;body&gt;</span> pour éviter les réexécutions
+                à chaque navigation Turbo.
+            </div>
+        </div>
+
+        <!-- Stimulus -->
+        <div class="doc-section" id="stimulus">
+            <h2>🎮 Stimulus - Contrôleurs JavaScript</h2>
+
+            <h3>Vue d'ensemble</h3>
+            <p>
+                Stimulus est un framework JavaScript léger qui organise votre code en contrôleurs.
+                Il suit le pattern MVC et s'intègre parfaitement avec le HTML généré par Symfony.
+            </p>
+
+            <h3>Architecture Stimulus</h3>
+            <ul>
+                <li><strong>Contrôleurs</strong> : Classes JavaScript qui gèrent la logique</li>
+                <li><strong>Actions</strong> : Méthodes appelées lors d'événements (click, submit, etc.)</li>
+                <li><strong>Targets</strong> : Éléments DOM référencés dans le contrôleur</li>
+                <li><strong>Values</strong> : Données passées du HTML au JavaScript</li>
+            </ul>
+
+            <h3>Créer un contrôleur Stimulus</h3>
+            <p>Créez <span class="inline-code">assets/controllers/hello_controller.js</span> :</p>
+            <div class="code-block"><code>
+
+export default class extends Controller {
+    // Définir les targets
+    static targets = ['name', 'output'];
+
+    // Définir les values (données)
+    static values = {
+        greeting: String
+    }
+
+    connect() {
+        console.log('Hello controller connecté !');
+    }
+
+    greet() {
+        const name = this.nameTarget.value;
+        const greeting = this.greetingValue || 'Bonjour';
+        this.outputTarget.textContent = `${greeting} ${name} !`;
+    }
+}</code>
+</code></div>
+
+            <h3>Utilisation dans le template</h3>
+            <div class="code-block"><code>
+    &lt;input type="text"
+           data-hello-target="name"
+           placeholder="Votre nom"&gt;
+
+    &lt;button data-action="click-&gt;hello#greet"&gt;
+        Saluer
+    &lt;/button&gt;
+
+    &lt;p data-hello-target="output"&gt;&lt;/p&gt;
+&lt;/div&gt;</code>
+</code></div>
+
+            <h3>Syntaxe des actions</h3>
+            <div class="code-block"><code>
+
+data-action="click->hello#greet"           // Click basique
+data-action="submit->form#validate"        // Soumission de formulaire
+data-action="input->search#filter"         // Saisie dans un input
+data-action="change->dropdown#update"      // Changement de valeur
+
+// Plusieurs actions
+data-action="focus->input#highlight blur->input#unhighlight"
+
+// Modificateurs
+data-action="click->modal#close:once"      // Une seule fois
+data-action="click->menu#toggle:prevent"   // Avec preventDefault()
+data-action="submit->form#save:stop"       // Avec stopPropagation()</code>
+</code></div>
+
+            <h3>Exemple avancé - Contrôleur de Modal</h3>
+            <div class="code-block"><code>
+import { Controller } from '@hotwired/stimulus';
+
+export default class extends Controller {
+    static targets = ['container', 'backdrop'];
+    static classes = ['open'];
+
+    connect() {
+        this.boundClose = this.close.bind(this);
+    }
+
+    open() {
+        this.containerTarget.classList.add(this.openClass);
+        document.body.style.overflow = 'hidden';
+
+        // Fermer au clic sur le backdrop
+        this.backdropTarget.addEventListener('click', this.boundClose);
+    }
+
+    close() {
+        this.containerTarget.classList.remove(this.openClass);
+        document.body.style.overflow = '';
+        this.backdropTarget.removeEventListener('click', this.boundClose);
+    }
+
+    closeWithKeyboard(event) {
+        if (event.key === 'Escape') {
+            this.close();
+        }
+    }
+}</code>
+</code></div>
+
+            <div class="code-block"><code>
+&lt;button data-action="click-&gt;modal#open"&gt;
+    Ouvrir la modal
+&lt;/button&gt;
+
+&lt;div data-controller="modal"
+     data-modal-open-class="is-active"
+     data-action="keydown@window-&gt;modal#closeWithKeyboard"&gt;
+
+    &lt;div data-modal-target="backdrop" class="backdrop"&gt;&lt;/div&gt;
+
+    &lt;div data-modal-target="container" class="modal"&gt;
+        &lt;button data-action="click-&gt;modal#close"&gt;✕&lt;/button&gt;
+        &lt;h2&gt;Titre de la modal&lt;/h2&gt;
+        &lt;p&gt;Contenu...&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code>
+</code></div>
+
+            <h3>Valeurs et Types</h3>
+            <div class="code-block"><code>
+    url: String,
+    count: Number,
+    enabled: Boolean,
+    items: Array,
+    config: Object
+}
+
+// Accès dans le code
+this.urlValue           // Lecture
+this.countValue = 10    // Écriture
+
+// Callbacks automatiques
+urlValueChanged(newValue, oldValue) {
+    console.log(`URL changée de ${oldValue} à ${newValue}`);
+}</code>
+</code></div>
+
+            <div class="info-box">
+                <strong>Auto-chargement :</strong>
+                Tous les contrôleurs dans <span class="inline-code">assets/controllers/</span>
+                sont automatiquement chargés. Le nom du fichier détermine le nom du contrôleur
+                (hello_controller.js devient "hello").
+            </div>
+        </div>
+
+        <!-- Cas d'usage avancés -->
+        <div class="doc-section" id="advanced">
+            <h2>🔥 Cas d'usage avancés</h2>
+
+            <h3>Combiner Turbo et Stimulus</h3>
+            <p>Exemple : Liste de produits avec filtrage en temps réel</p>
+
+            <h4>Contrôleur Stimulus</h4>
+            <div class="code-block"><code>
+import { Controller } from '@hotwired/stimulus';
+
+export default class extends Controller {
+    static targets = ['form'];
+
+    filter() {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.formTarget.requestSubmit();
+        }, 300);
+    }
+}</code>
+</code></div>
+
+            <h4>Template avec Turbo Frame</h4>
+            <div class="code-block"><code>
+    &lt;form data-filter-target="form"
+          action="&#123;&#123; path('products_filter') &#125;&#125;"
+          data-turbo-frame="products-list"&gt;
+
+        &lt;input type="search"
+               name="q"
+               data-action="input-&gt;filter#filter"
+               placeholder="Rechercher..."&gt;
+    &lt;/form&gt;
+
+    &lt;turbo-frame id="products-list" src="&#123;&#123; path('products_list') &#125;&#125;"&gt;
+        &lt;p&gt;Chargement...&lt;/p&gt;
+    &lt;/turbo-frame&gt;
+&lt;/div&gt;</code>
+</code></div>
+
+            <h4>Contrôleur PHP</h4>
+            <div class="code-block"><code>
+public function filter(Request $request, ProductRepository $repo): Response
+{
+    $query = $request->query->get('q');
+    $products = $repo->search($query);
+
+    return $this->render('product/_list.html.twig', [
+        'products' => $products,
+    ]);
+}</code>
+</code></div>
+
+            <h3>Graphiques dynamiques avec Chart.js et Stimulus</h3>
+            <div class="code-block"><code>
+import { Controller } from '@hotwired/stimulus';
+import Chart from 'chart.js/auto';
+
+export default class extends Controller {
+    static values = {
+        url: String
+    }
+
+    connect() {
+        this.chart = new Chart(this.element, {
+            type: 'line',
+            data: { labels: [], datasets: [] }
+        });
+
+        this.loadData();
+        this.interval = setInterval(() => this.loadData(), 5000);
+    }
+
+    disconnect() {
+        clearInterval(this.interval);
+        this.chart.destroy();
+    }
+
+    async loadData() {
+        const response = await fetch(this.urlValue);
+        const data = await response.json();
+
+        this.chart.data = data;
+        this.chart.update();
+    }
+}</code>
+</code></div>
+
+            <h3>Carte avec marqueurs dynamiques</h3>
+            <div class="code-block"><code>
+public function map(Request $request): Response
+{
+    $map = (new Map())->center(new Point(48.8566, 2.3522))->zoom(12);
+
+    // Récupérer les points depuis la base de données
+    $locations = $this->locationRepository->findAll();
+
+    foreach ($locations as $location) {
+        $map->addMarker(new Marker(
+            position: new Point($location->getLatitude(), $location->getLongitude()),
+            title: $location->getName(),
+            infoWindow: new InfoWindow(
+                headerContent: "&lt;strong&gt;{$location->getName()}&lt;/strong&gt;",
+                content: $location->getDescription()
+            )
+        ));
+    }
+
+    return $this->render('map/index.html.twig', ['map' => $map]);
+}</code>
+</code></div>
+        </div>
+
+        <!-- Ressources -->
+        <div class="doc-section" id="resources">
+            <h2>📚 Ressources et liens utiles</h2>
+
+            <h3>Documentation officielle</h3>
+            <ul>
+                <li><a href="https://ux.symfony.com" target="_blank">Documentation Symfony UX</a></li>
+                <li><a href="https://symfony.com/doc/current/frontend.html" target="_blank">Frontend avec Symfony</a></li>
+                <li><a href="https://stimulus.hotwired.dev" target="_blank">Documentation Stimulus</a></li>
+                <li><a href="https://turbo.hotwired.dev" target="_blank">Documentation Turbo</a></li>
+                <li><a href="https://www.chartjs.org/docs/" target="_blank">Documentation Chart.js</a></li>
+                <li><a href="https://leafletjs.com" target="_blank">Documentation Leaflet</a></li>
+            </ul>
+
+            <h3>Packages Symfony UX disponibles</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ux-autocomplete</td>
+                        <td>Champs de saisie avec auto-complétion</td>
+                    </tr>
+                    <tr>
+                        <td>ux-dropzone</td>
+                        <td>Upload de fichiers par glisser-déposer</td>
+                    </tr>
+                    <tr>
+                        <td>ux-cropper</td>
+                        <td>Recadrage d'images</td>
+                    </tr>
+                    <tr>
+                        <td>ux-notify</td>
+                        <td>Notifications toast</td>
+                    </tr>
+                    <tr>
+                        <td>ux-typed</td>
+                        <td>Animation de texte qui se tape</td>
+                    </tr>
+                    <tr>
+                        <td>ux-swup</td>
+                        <td>Animations de transitions de pages</td>
+                    </tr>
+                    <tr>
+                        <td>ux-lazy-image</td>
+                        <td>Chargement paresseux d'images</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Commandes utiles</h3>
+            <div class="code-block"><code>
+npm run dev
+
+# Compiler et surveiller les changements
+npm run watch
+
+# Compiler pour la production (minifié)
+npm run build
+
+# Lister les contrôleurs Stimulus disponibles
+php bin/console debug:container --tag=stimulus.controller
+
+# Vider le cache Symfony
+php bin/console cache:clear</code>
+</code></div>
+
+            <div class="success-box">
+                <strong>Conseil :</strong>
+                Consultez régulièrement <a href="https://ux.symfony.com" target="_blank">ux.symfony.com</a>
+                pour découvrir les nouveaux composants et mises à jour !
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -241,4 +241,10 @@ class UxDemoController extends AbstractController
     {
         return $this->render('ux_demo/stimulus.html.twig');
     }
+
+    #[Route('/docs', name: 'ux_demo_docs')]
+    public function documentation(): Response
+    {
+        return $this->render('ux_demo/docs.html.twig');
+    }
 }
