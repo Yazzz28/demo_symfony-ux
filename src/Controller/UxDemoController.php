@@ -12,7 +12,6 @@ use Symfony\UX\Map\Point;
 use Symfony\UX\Map\Marker;
 use Symfony\UX\Map\InfoWindow;
 
-#[Route('/ux-demo')]
 class UxDemoController extends AbstractController
 {
     #[Route('/', name: 'ux_demo_index')]
